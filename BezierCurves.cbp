@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="BezierCurves" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../__bin/Debug/BezierCurves" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../__obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../__bin/Release/BezierCurves" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../__obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-O2 -Wall" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Linker>
+			<!--LINUX-->
+			<Add option="-lGL" />
+			<Add option="-lGLU" />
+			<Add option="-lglut" />
+			<!-- WINDOWS
+			<Add library="../lib/libglu32.a" />
+			<Add library="../lib/libopengl32.a" />
+			<Add library="../lib/freeglut.lib" />
+			-->
+		</Linker>
+	     <Unit filename="include/GL/freeglut.h" />
+             <Unit filename="include/GL/freeglut_ext.h" />
+             <Unit filename="include/GL/freeglut_std.h" />
+             <Unit filename="include/GL/glut.h" />
+             <Unit filename="src/Base/CanvasObject.cpp" />
+             <Unit filename="src/Base/CanvasObject.h" />
+             <Unit filename="src/Base/IKeyboard.h" />
+             <Unit filename="src/Base/IMouse.h" />
+             <Unit filename="src/Base/IRender.h" />
+             <Unit filename="src/Base/ITransformable.h" />
+             <Unit filename="src/Button/Button.cpp" />
+             <Unit filename="src/Button/Button.h" />
+             <Unit filename="src/Canvas/gl_canvas2d.cpp" />
+             <Unit filename="src/Canvas/gl_canvas2d.h" />
+             <Unit filename="src/ColorPicker/ColorPicker.cpp" />
+             <Unit filename="src/ColorPicker/ColorPicker.h" />
+             <Unit filename="src/ColorPicker/ColorPickerPanel.cpp" />
+             <Unit filename="src/ColorPicker/ColorPickerPanel.h" />
+             <Unit filename="src/ColorPicker/ColorSlider.cpp" />
+             <Unit filename="src/ColorPicker/ColorSlider.h" />
+             <Unit filename="src/Managers/GlobalManager.cpp" />
+             <Unit filename="src/Managers/GlobalManager.h" />
+             <Unit filename="src/Panel/Panel.cpp" />
+             <Unit filename="src/Panel/Panel.h" />
+             <Unit filename="src/Vectors/Float2.cpp" />
+             <Unit filename="src/Vectors/Float2.h" />
+             <Unit filename="src/Vectors/Float3.cpp" />
+             <Unit filename="src/Vectors/Float3.h" />
+             <Unit filename="src/Vectors/Float4.cpp" />
+             <Unit filename="src/Vectors/Float4.h" />
+             <Unit filename="src/Bounds/Bounds.cpp" />
+             <Unit filename="src/Bounds/Bounds.h" />
+             <Unit filename="src/Figure/Figure.cpp" />
+             <Unit filename="src/Figure/Figure.h" />
+             <Unit filename="src/Figure/FigureListManager.cpp" />
+             <Unit filename="src/Figure/FigureListManager.h" />
+             <Unit filename="src/main.cpp" />
+             <Unit filename="src/Scene/Scene.cpp" />
+             <Unit filename="src/Scene/Scene.h" />
+             <Unit filename="src/Utilities.cpp" />
+             <Unit filename="src/Utilities.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
