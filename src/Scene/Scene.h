@@ -18,16 +18,11 @@ enum Operator {
     MultipleSelect = 214,
     FixX = 'x',
     FixY = 'y',
-    RenderBounds = 'b',
+    ConvexHull = 'b',
+    ControlGraph = 'g',
+    DrawAnimation = 'h',
+    ShowCurve = 'c',
     DeleteSelected = 127,
-    SelectFillColor = 'f',
-    SelectLineColor = 'l',
-    LoadFile = 'o',
-    SaveFile = 'p',
-    BackgroundVisible = 'g',
-    LineVisible = 'h',
-    BothVisible = 'j',
-    RenderZIndex = 'z'
 };
 
 enum SceneMode {
@@ -58,6 +53,9 @@ private:
     int mode;
     bool multipleSelect;
     bool drawBounds;
+    bool drawCurve;
+    bool drawControlGraph;
+    bool drawAnimation;
     Float4 highlightColor;
     Float2 lastMousePosition;
     Float3 selectionCenter;

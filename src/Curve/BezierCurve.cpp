@@ -15,7 +15,7 @@
 
 BezierCurve::BezierCurve() {
     drawZIndex = false;
-    drawBounds = false;
+    drawConvexHull = false;
     isSelected = false;
 }
 
@@ -26,7 +26,10 @@ BezierCurve::BezierCurve(Float3 backgroundColor, Float3 lineColor, Float4 highli
     this->_controlPoints = controlPoints;
     calculateConvexHull();
     isSelected = false;
-    drawBounds = false;
+    drawConvexHull = false;
+    drawCurve = true;
+    drawControlGraph = false;
+    drawAnimation = false;
     drawZIndex = false;
     computeCentroid();
     int n = controlPoints.size() - 1;
@@ -41,30 +44,60 @@ void BezierCurve::render() {
     if (_controlPoints.size() < 0)
         return;
 
+    calculateConvexHull();
+
     color(lineColor.x, lineColor.y, lineColor.z, 1);
 
-    for (int i = 0; i < _controlPoints.size() - 1; ++i) {
-        ControlPoint *p0 = _controlPoints[i];
-        ControlPoint *p1 = _controlPoints[i + 1];
+    if (drawControlGraph) {
 
-        line(p0->vertex.x, p0->vertex.y, p1->vertex.x, p1->vertex.y);
-    }
+        for (int i = 0; i < _controlPoints.size() - 1; ++i) {
+            ControlPoint *p0 = _controlPoints[i];
+            ControlPoint *p1 = _controlPoints[i + 1];
 
-    Float3 p;
-    bool draw = false;
-    for (float t = 0; t <= 1; t += 0.01) {
-        Float3 p1;
-        for (int i = 0; i < _controlPoints.size(); ++i) {
-            p1.x += _controlPoints[i]->vertex.x * blendingFunctions[i](t);
-            p1.y += _controlPoints[i]->vertex.y * blendingFunctions[i](t);
+            line(p0->vertex.x, p0->vertex.y, p1->vertex.x, p1->vertex.y);
         }
-        if (draw)
-            line(p.x, p.y, p1.x, p1.y);
-        p = p1;
-        draw = true;
     }
 
-    drawAnimation(getPoints(), t);
+    if (drawAnimation) {
+        curveAnimation(getPoints(), t);
+    }
+
+    if (drawCurve) {
+        Float3 p;
+        bool draw = false;
+        for (float t = 0; t <= 1; t += 0.01) {
+            Float3 p1;
+            for (int i = 0; i < _controlPoints.size(); ++i) {
+                p1.x += _controlPoints[i]->vertex.x * blendingFunctions[i](t);
+                p1.y += _controlPoints[i]->vertex.y * blendingFunctions[i](t);
+            }
+            if (draw)
+                line(p.x, p.y, p1.x, p1.y);
+            p = p1;
+            draw = true;
+        }
+    }
+    if (drawConvexHull) {
+        for (int i = 0; i < convexHull.hull.size() - 1; ++i) {
+            Float3 p0 = convexHull.hull[i];
+            Float3 p1 = convexHull.hull[i + 1];
+            line(p0.x, p0.y, p1.x, p1.y);
+        }
+    }
+
+    if (isSelected) {
+        for (int i = 0; i < _controlPoints.size(); ++i) {
+            _controlPoints[i]->handleColor = highlightColor;
+        }
+    } else {
+        for (int i = 0; i < _controlPoints.size(); ++i) {
+            _controlPoints[i]->handleColor = Float4(1, 1, 1, 1);
+        }
+    }
+
+
+    t = t + 0.1 * GlobalManager::getInstance()->deltaTime;
+    if (t > 1) t = 0;
 
     color(1, 1, 1);
 
@@ -74,24 +107,10 @@ void BezierCurve::render() {
         text(centroid.x, centroid.y, stream.str().c_str());
     }
 
-    if (drawBounds) {
-        calculateConvexHull();
-        for (int i = 0; i < convexHull.hull.size() - 1; ++i) {
-            Float3 p0 = convexHull.hull[i];
-            Float3 p1 = convexHull.hull[i + 1];
-            line(p0.x, p0.y, p1.x, p1.y);
-        }
-    }
 
-    if (isSelected) {
-        color(highlightColor.x, highlightColor.y, highlightColor.z, highlightColor.w);
-    }
-
-    t = t + 0.1 * GlobalManager::getInstance()->deltaTime;
-    if (t > 1) t = 0;
 }
 
-void BezierCurve::drawAnimation(std::vector<Float3> points, float t) {
+void BezierCurve::curveAnimation(std::vector<Float3> points, float t) {
     if (points.size() <= 1) return;
     std::vector<Float3> interpolation;
 
@@ -100,10 +119,10 @@ void BezierCurve::drawAnimation(std::vector<Float3> points, float t) {
         Float3 p1 = points[i + 1];
         Float3 p = lerp(points[i], points[i + 1], t);
         interpolation.push_back(p);
-        circleFill(p.x, p.y,3,20);
+        circleFill(p.x, p.y, 3, 20);
         line(p0.x, p0.y, p1.x, p1.y);
     }
-    drawAnimation(interpolation, t);
+    curveAnimation(interpolation, t);
 }
 
 void BezierCurve::computeCentroid() {
@@ -181,7 +200,8 @@ void BezierCurve::rescale(Float3 scale, Float3 center) {
 }
 
 bool BezierCurve::pointIntersectsObject(Float3 point) {
-    return isPointInsidePolygon({point.x, point.y}, getPoints(), _controlPoints.size() - 1);
+    calculateConvexHull();
+    return isPointInsidePolygon({point.x, point.y}, convexHull.hull, convexHull.hull.size() - 1);
 }
 
 std::vector<Float3> BezierCurve::getPoints() {

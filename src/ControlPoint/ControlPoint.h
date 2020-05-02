@@ -15,6 +15,7 @@ public:
     Float3 vertex;
     float radius;
     int idx;
+    Float4 handleColor;
 
     ControlPoint(const Float3 &vertex, float radius);
 

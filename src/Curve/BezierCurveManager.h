@@ -27,7 +27,13 @@ public:
 
     void clearSelectedCurve();
 
-    void setDrawBounds(bool drawBounds);
+    void setDrawBounds(bool drawBounds, bool selectedOnly);
+
+    void setDrawCurve(bool drawCurve, bool selectedOnly);
+
+    void setDrawControlGraph(bool drawControlGraph, bool selectedOnly);
+
+    void setDrawAnimation(bool drawAnimation, bool selectedOnly);
 
     void translateCurves(Float3 translationAmount);
 

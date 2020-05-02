@@ -36,8 +36,10 @@ void Scene::mouse(int button, int state, int wheel, int direction, int x, int y)
 
 void Scene::singleSelection(int x, int y) {
     if (isMouseInsideObject()) {
+        std::cout << "clear" << std::endl;
         curveListManager.clearSelectedCurve();
     }
+    std::cout << "teste" << std::endl;
     BezierCurve *fig = curveListManager.getFirstInteractedCurve({x, y});
     if (fig != nullptr) {
         if (!fig->isMouseInsideObject()) return;
@@ -67,7 +69,7 @@ void Scene::insertNewcurve() {
         c->idx = i;
         points.push_back(c);
     }
-    BezierCurve *curve = new BezierCurve(backgroundColor, lineColor, Float4(0, 0, 0, 0), points);
+    BezierCurve *curve = new BezierCurve(backgroundColor, lineColor, highlightColor, points);
     curveListManager.addCurve(curve);
 
 }
@@ -121,20 +123,29 @@ void Scene::handleSceneOperator(Operator op) {
         case Operator::FixX:
             fixatedAxis = {1, 0};
             break;
-        case Operator::RenderBounds:
+        case Operator::ConvexHull:
             drawBounds = !drawBounds;
-            drawPolygonBounds();
+            curveListManager.setDrawBounds(drawBounds, false);
             break;
+        case Operator::DrawAnimation:
+            drawAnimation = !drawAnimation;
+            curveListManager.setDrawAnimation(drawAnimation, false);
+            break;
+        case Operator::ControlGraph:
+            drawControlGraph = !drawControlGraph;
+            curveListManager.setDrawControlGraph(drawControlGraph, false);
+            break;
+        case Operator::ShowCurve:
+            drawCurve = !drawCurve;
+            curveListManager.setDrawCurve(drawCurve, false);
+            break;
+
         case Operator::DeleteSelected:
             curveListManager.deleteSelectedcurves();
             break;
         default:
             break;
     }
-}
-
-void Scene::drawPolygonBounds() {
-    curveListManager.setDrawBounds(drawBounds);
 }
 
 void Scene::render() {
@@ -215,10 +226,11 @@ void Scene::ignoreUpperCaseChar(int &key) {
 
 Scene::Scene() {
     mode = SceneMode::Default;
-    highlightColor = {245 / 255.0, 195 / 255.0, 120 / 255.0, 0.8};
+    highlightColor = {242 / 255.0, 153 / 255.0, 0, 1};
     drawBounds = false;
     this->scale = Float3(*GlobalManager::getInstance()->screenWidth, *GlobalManager::getInstance()->screenHeight, 0);
     this->setZIndex(-10000);
+    multipleSelect = false;
 }
 
 void Scene::setInsertMode() {

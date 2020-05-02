@@ -27,6 +27,7 @@ void ControlPoint::mouse(int button, int state, int wheel, int direction, int x,
 }
 
 void ControlPoint::render() {
+    color(handleColor.x, handleColor.y, handleColor.z, handleColor.w);
     circleFill(vertex.x, vertex.y, radius, 20);
     std::stringstream s;
     s << "P" << idx;

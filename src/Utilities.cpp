@@ -21,8 +21,8 @@ bool isPointInsidePolygon(Float2 P, std::vector<Float3> vertices, int n) {
     int cn = 0; // the  crossing number counter
 
     // loop through all edges of the polygon
-    for (int i = 0;
-         i < n; i++) {                                                             // edge from V[i]  to V[i+1]
+    for (int i = 0; i < n; i++) {
+        // edge from V[i]  to V[i+1]
         if (((vertices[i].y <= P.y) && (vertices[i + 1].y > P.y)) // an upward crossing
             || ((vertices[i].y > P.y) && (vertices[i + 1].y <= P.y))) { // a downward crossing
             // compute  the actual edge-ray intersect x-coordinate

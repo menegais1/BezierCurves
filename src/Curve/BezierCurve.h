@@ -32,7 +32,10 @@ public:
 
     bool isSelected;
     bool drawZIndex;
-    bool drawBounds;
+    bool drawConvexHull;
+    bool drawControlGraph;
+    bool drawAnimation;
+    bool drawCurve;
     Float4 highlightColor;
 
     void render() override;
@@ -44,7 +47,7 @@ public:
 
     Float3 getCenter();
 
-    void drawAnimation(std::vector<Float3> points, float t);
+    void curveAnimation(std::vector<Float3> points, float t);
 
     void translate(Float3 translationAmount) override;
 

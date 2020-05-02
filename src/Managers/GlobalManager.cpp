@@ -96,7 +96,7 @@ bool GlobalManager::isMouseInsideObject(CanvasObject *object) {
         if (!objects[i]->getActive())
             continue;
         if (objects[i]->pointIntersectsObject(Float3(mousePosition, 0))) {
-
+            std::cout << "Intersects "  << i << std::endl;
             if (object == objects[i]) {
                 return true;
             }

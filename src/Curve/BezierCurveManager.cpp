@@ -78,18 +78,12 @@ BezierCurve *BezierCurveManager::getFirstInteractedCurve(Float2 mousePosition) {
     int size = curves.size();
     for (int i = 0; i < size; i++) {
         BezierCurve *fig = curves[i];
-        if (isPointInsidePolygon(mousePosition, fig->getPoints(), fig->_controlPoints.size() - 1)) {
+        if (fig->isMouseInsideObject()) {
             return fig;
         }
     }
 
     return nullptr;
-}
-
-void BezierCurveManager::setDrawBounds(bool drawBounds) {
-    for (int i = 0; i < curves.size(); i++) {
-        curves[i]->drawBounds = drawBounds;
-    }
 }
 
 void BezierCurveManager::addCurve(std::vector<BezierCurve *> &curves, BezierCurve *curve) {
@@ -138,7 +132,7 @@ void BezierCurveManager::rescaleCurves(Float3 scale, Float3 center) {
 
 void BezierCurveManager::setSelectedCurvesColor(Float3 color, bool fillColor) {
     for (int i = 0; i < selectedCurves.size(); i++) {
-            selectedCurves[i]->lineColor = color;
+        selectedCurves[i]->lineColor = color;
     }
 }
 
@@ -149,5 +143,57 @@ bool BezierCurveManager::isCurvesSelected() {
 void BezierCurveManager::setRenderZIndex(bool drawZIndex) {
     for (int i = 0; i < curves.size(); i++) {
         curves[i]->drawZIndex = drawZIndex;
+    }
+}
+
+void BezierCurveManager::setDrawBounds(bool drawBounds, bool selectedOnly) {
+    if (selectedOnly) {
+        for (int i = 0; i < selectedCurves.size(); i++) {
+            selectedCurves[i]->drawConvexHull = drawBounds;
+
+        }
+    } else {
+        for (int i = 0; i < curves.size(); i++) {
+            curves[i]->drawConvexHull = drawBounds;
+        }
+    }
+}
+
+void BezierCurveManager::setDrawCurve(bool drawCurve, bool selectedOnly) {
+    if (selectedOnly) {
+        for (int i = 0; i < selectedCurves.size(); i++) {
+            selectedCurves[i]->drawCurve = drawCurve;
+
+        }
+    } else {
+        for (int i = 0; i < curves.size(); i++) {
+            curves[i]->drawCurve = drawCurve;
+        }
+    }
+}
+
+void BezierCurveManager::setDrawControlGraph(bool drawControlGraph, bool selectedOnly) {
+    if (selectedOnly) {
+        for (int i = 0; i < selectedCurves.size(); i++) {
+            selectedCurves[i]->drawControlGraph = drawControlGraph;
+
+        }
+    } else {
+        for (int i = 0; i < curves.size(); i++) {
+            curves[i]->drawControlGraph = drawControlGraph;
+        }
+    }
+}
+
+void BezierCurveManager::setDrawAnimation(bool drawAnimation, bool selectedOnly) {
+    if (selectedOnly) {
+        for (int i = 0; i < selectedCurves.size(); i++) {
+            selectedCurves[i]->drawAnimation = drawAnimation;
+
+        }
+    } else {
+        for (int i = 0; i < curves.size(); i++) {
+            curves[i]->drawAnimation = drawAnimation;
+        }
     }
 }
