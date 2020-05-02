@@ -24,7 +24,7 @@ void line(int x1, int y1, int x2, int y2); //coordenadas da linha x1, y1, x2, y2
 void rect(int x1, int y1, int x2, int y2); //coordenadas do retangulo x1, y1, x2, y2
 void rectFill(int x1, int y1, int x2, int y2); //coordenadas do retangulo x1, y1, x2, y2
 
-//desenha um poligono CONVEXO. Para um retangulo, deve-se passar 4 vertices
+//desenha um poligono CONVEXO. Para um retangulo, deve-se passar 4 controlPoints
 void polygon(Float3 vertices[], int elems);
 
 void polygonFill(Float3 vertices[], int n_elems);

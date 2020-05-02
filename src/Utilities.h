@@ -33,6 +33,8 @@ enum MouseState {
 
 bool isPointInsideBounds(Float2 point, Float2 position, Float2 scale);
 
+bool isPointInsideCircle(Float2 point, Float2 center, float radius);
+
 int isLeft(Float3 P0, Float3 P1, Float3 P2);
 
 bool isPointInsidePolygon(Float2 P, std::vector<Float3> vertices, int n);

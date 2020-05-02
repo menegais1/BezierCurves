@@ -58,3 +58,7 @@ std::vector<Float3> generateCircle(Float3 center, Float3 scale, float sides) {
     vertices.push_back(vertices[0]);
     return vertices;
 }
+
+bool isPointInsideCircle(Float2 point, Float2 center, float radius) {
+    return std::pow(point.x - center.x, 2) + std::pow(point.y - center.y, 2) <= std::pow(radius, 2);
+}

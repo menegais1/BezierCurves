@@ -81,10 +81,10 @@
              <Unit filename="src/Vectors/Float4.h" />
              <Unit filename="src/Bounds/Bounds.cpp" />
              <Unit filename="src/Bounds/Bounds.h" />
-             <Unit filename="src/Figure/Figure.cpp" />
-             <Unit filename="src/Figure/Figure.h" />
-             <Unit filename="src/Figure/FigureListManager.cpp" />
-             <Unit filename="src/Figure/FigureListManager.h" />
+             <Unit filename="src/BezierCurve/BezierCurve.cpp" />
+             <Unit filename="src/BezierCurve/BezierCurve.h" />
+             <Unit filename="src/BezierCurve/BezierCurveManager.cpp" />
+             <Unit filename="src/BezierCurve/BezierCurveManager.h" />
              <Unit filename="src/main.cpp" />
              <Unit filename="src/Scene/Scene.cpp" />
              <Unit filename="src/Scene/Scene.h" />

@@ -1,15 +1,15 @@
 //Class responsible for listening to all mouse and keyboard input,
-//dealing with current program state and redirecting functions using the figureListManager
+//dealing with current program state and redirecting functions using the curveListManager
 //Basically it's the main file of the program
 
 #ifndef SCENE_H
 #define SCENE_H
 
 #include <vector>
-#include "../Figure/Figure.h"
+#include "Curve/BezierCurve.h"
 #include "../Vectors/Float3.h"
 #include "../Vectors/Float4.h"
-#include "../Figure/FigureListManager.h"
+#include "../Curve/BezierCurveManager.h"
 
 enum Operator {
     InsertPolygon = 13,
@@ -28,18 +28,6 @@ enum Operator {
     LineVisible = 'h',
     BothVisible = 'j',
     RenderZIndex = 'z'
-};
-
-enum FigureType {
-    Poly = '0',
-    Circle = '1',
-    Triangle = '3',
-    Square = '4',
-    Pentagon = '5',
-    Hexagon = '6',
-    Heptagon = '7',
-    Octagon = '8',
-    Nonagon = '9'
 };
 
 enum SceneMode {
@@ -65,7 +53,7 @@ public:
     Scene();
 
 private:
-    FigureListManager figureListManager;
+    BezierCurveManager curveListManager;
     std::vector<Float3> tmpVertices;
     int mode;
     bool multipleSelect;
@@ -80,7 +68,7 @@ private:
 
     void renderCurrentMode();
 
-    void insertNewFigure();
+    void insertNewcurve();
 
     void singleSelection(int x, int y);
 

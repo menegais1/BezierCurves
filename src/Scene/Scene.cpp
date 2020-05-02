@@ -1,12 +1,13 @@
 #include "Scene.h"
 #include "../Utilities.h"
-#include "../Figure/Figure.h"
+#include "Curve/BezierCurve.h"
 #include "../Canvas/gl_canvas2d.h"
 #include "../Managers/GlobalManager.h"
 #include <iostream>
 #include <algorithm>
 #include <cmath>
 #include <sstream>
+#include <ControlPoint/ControlPoint.h>
 #include "../Vectors/Float2.h"
 #include "../Vectors/Float3.h"
 #include "../Vectors/Float4.h"
@@ -35,36 +36,39 @@ void Scene::mouse(int button, int state, int wheel, int direction, int x, int y)
 
 void Scene::singleSelection(int x, int y) {
     if (isMouseInsideObject()) {
-        figureListManager.clearSelectedFigures();
+        curveListManager.clearSelectedCurve();
     }
-    Figure *fig = figureListManager.getFirstInteractedFigure({x, y});
+    BezierCurve *fig = curveListManager.getFirstInteractedCurve({x, y});
     if (fig != nullptr) {
         if (!fig->isMouseInsideObject()) return;
-        figureListManager.clearSelectedFigures();
-        figureListManager.selectFigure(fig);
+        curveListManager.clearSelectedCurve();
+        curveListManager.selectCurve(fig);
     }
 }
 
 void Scene::multipleSelection(int x, int y) {
-    Figure *fig = figureListManager.getFirstInteractedFigure({x, y});
+    BezierCurve *fig = curveListManager.getFirstInteractedCurve({x, y});
     if (fig != nullptr) {
         if (!fig->isMouseInsideObject()) return;
-        figureListManager.selectFigure(fig);
+        curveListManager.selectCurve(fig);
     } else if (isMouseInsideObject()) {
-        figureListManager.clearSelectedFigures();
+        curveListManager.clearSelectedCurve();
     }
 }
 
-void Scene::insertNewFigure() {
+void Scene::insertNewcurve() {
     if (tmpVertices.size() < 2)
         return;
     Float3 backgroundColor = {0.2, 0.2, 0.2};
     Float3 lineColor = {0, 1, 0};
-    tmpVertices.push_back(tmpVertices[0]);
-    Figure *fig = new Figure(backgroundColor, lineColor, highlightColor, tmpVertices);
-    fig->setZIndex(0);
-    fig->drawBounds = drawBounds;
-    figureListManager.addFigure(fig);
+    std::vector<ControlPoint *> points;
+    for (int i = 0; i < tmpVertices.size(); ++i) {
+        ControlPoint *c = new ControlPoint(tmpVertices[i], 4);
+        points.push_back(c);
+    }
+    BezierCurve *curve = new BezierCurve(backgroundColor, lineColor, Float4(0, 0, 0, 0), points);
+    curveListManager.addCurve(curve);
+
 }
 
 void Scene::keyboard(int key) {
@@ -85,15 +89,15 @@ void Scene::handleSceneMode(SceneMode sceneMode) {
             setInsertMode();
             break;
         case SceneMode::Translate:
-            if (figureListManager.isFiguresSelected())
+            if (curveListManager.isCurvesSelected())
                 setTranslateMode();
             break;
         case SceneMode::Rotate:
-            if (figureListManager.isFiguresSelected())
+            if (curveListManager.isCurvesSelected())
                 setRotateMode();
             break;
         case SceneMode::Scale:
-            if (figureListManager.isFiguresSelected())
+            if (curveListManager.isCurvesSelected())
                 setScaleMode();
             break;
     }
@@ -106,7 +110,7 @@ void Scene::handleSceneOperator(Operator op) {
             break;
         case Operator::InsertPolygon:
             if (mode == SceneMode::Insert) {
-                insertNewFigure();
+                insertNewcurve();
                 mode = SceneMode::Default;
             }
             break;
@@ -121,7 +125,7 @@ void Scene::handleSceneOperator(Operator op) {
             drawPolygonBounds();
             break;
         case Operator::DeleteSelected:
-            figureListManager.deleteSelectedFigures();
+            curveListManager.deleteSelectedcurves();
             break;
         default:
             break;
@@ -129,7 +133,7 @@ void Scene::handleSceneOperator(Operator op) {
 }
 
 void Scene::drawPolygonBounds() {
-    figureListManager.setDrawBounds(drawBounds);
+    curveListManager.setDrawBounds(drawBounds);
 }
 
 void Scene::render() {
@@ -154,7 +158,6 @@ void Scene::renderPolygonInsertion() {
         color(1, 0, 0);
         line(tmpVertices[i].x, tmpVertices[i].y, tmpVertices[i + 1].x, tmpVertices[i + 1].y);
     }
-    line(tmpVertices[size - 1].x, tmpVertices[size - 1].y, tmpVertices[0].x, tmpVertices[0].y);
 }
 
 void Scene::renderCurrentMode() {
@@ -174,12 +177,12 @@ void Scene::renderCurrentMode() {
             text(20, screenHeight - 35, "I key: clear points");
             text(20, screenHeight - 47, "Enter key: finish insertion");
             text(20, screenHeight - 59,
-                 "Keys from 0-9: Change figure type, 0 is free polygon, 1 is circle, 3 is triangle... 9 is nonagon");
+                 "Keys from 0-9: Change curve type, 0 is free polygon, 1 is circle, 3 is triangle... 9 is nonagon");
             break;
         case SceneMode::Translate:
             color(1, 1, 1);
             text(20, screenHeight - 10, "Mode: Translation");
-            text(20, screenHeight - 23, "Move Mouse: Translate selected figures");
+            text(20, screenHeight - 23, "Move Mouse: Translate selected curves");
             text(20, screenHeight - 35, "T Key: finish translation");
             text(20, screenHeight - 47, "X Key: Fixate x axis");
             text(20, screenHeight - 59, "Y Key: Fixate y axis");
@@ -187,13 +190,13 @@ void Scene::renderCurrentMode() {
         case SceneMode::Rotate:
             color(1, 1, 1);
             text(20, screenHeight - 10, "Mode: Rotation");
-            text(20, screenHeight - 23, "Move Mouse: Rotate selected figures");
+            text(20, screenHeight - 23, "Move Mouse: Rotate selected curves");
             text(20, screenHeight - 35, "R Key: finish rotation");
             break;
         case SceneMode::Scale:
             color(1, 1, 1);
             text(20, screenHeight - 10, "Mode: Scaling");
-            text(20, screenHeight - 23, "Move Mouse: Scale selected figures");
+            text(20, screenHeight - 23, "Move Mouse: Scale selected curves");
             text(20, screenHeight - 35, "S Key: finish scaling");
             text(20, screenHeight - 47, "X Key: Fixate x axis");
             text(20, screenHeight - 59, "Y Key: Fixate y axis");
@@ -238,7 +241,7 @@ void Scene::setScaleMode() {
     } else {
         mode = SceneMode::Scale;
         lastMousePosition = GlobalManager::getInstance()->mousePosition;
-        selectionCenter = figureListManager.calculateSelectedFiguresCenter();
+        selectionCenter = curveListManager.calculateSelectedCurvesCenter();
         fixatedAxis = {1, 1};
     }
 }
@@ -248,7 +251,7 @@ void Scene::setRotateMode() {
         mode = SceneMode::Default;
     } else {
         mode = SceneMode::Rotate;
-        selectionCenter = figureListManager.calculateSelectedFiguresCenter();
+        selectionCenter = curveListManager.calculateSelectedCurvesCenter();
     }
 }
 
@@ -265,7 +268,7 @@ void Scene::handleInsertMode(int button, int state) {
 void Scene::handleTranslateMode() {
     Float3 translation = {currentMousePosition.x - lastMousePosition.x, currentMousePosition.y - lastMousePosition.y,
                           0};
-    figureListManager.translateFigures({translation.x * fixatedAxis.x, translation.y * fixatedAxis.y, 0});
+    curveListManager.translateCurves({translation.x * fixatedAxis.x, translation.y * fixatedAxis.y, 0});
 }
 
 void Scene::handleScaleMode() {
@@ -274,7 +277,7 @@ void Scene::handleScaleMode() {
 
     float scaleAmount = scale1.length() / scale2.length();
     Float3 scale = {fixatedAxis.x != 0 ? scaleAmount : 1, fixatedAxis.y != 0 ? scaleAmount : 1, 0};
-    figureListManager.rescaleFigures(scale, selectionCenter);
+    curveListManager.rescaleCurves(scale, selectionCenter);
 }
 
 void Scene::handleRotateMode() {
@@ -286,7 +289,7 @@ void Scene::handleRotateMode() {
     float dot = vector1.x * vector2.x + vector1.y * vector2.y;
     dot = dot > 1 ? 1 : dot;
     float angle = std::acos(dot);
-    figureListManager.rotateFigures(angle * direction, selectionCenter);
+    curveListManager.rotateCurves(angle * direction, selectionCenter);
 }
 
 void Scene::handleDefaultMode(int button, int state) {
