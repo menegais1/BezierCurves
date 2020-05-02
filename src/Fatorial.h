@@ -8,7 +8,7 @@
 class Fatorial {
 private:
     Fatorial();
-    float fat_lookUpTable[20];
+    float fat_lookUpTable[40];
 public:
     static float fatorial(int n);
 

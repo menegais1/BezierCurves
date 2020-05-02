@@ -44,6 +44,8 @@ public:
 
     Float3 getCenter();
 
+    void drawAnimation(std::vector<Float3> points, float t);
+
     void translate(Float3 translationAmount) override;
 
     void rotate(float angle, Float3 center) override;

@@ -10,6 +10,7 @@
 #include <functional>
 #include "../Bounds/Bounds.h"
 #include "../Fatorial.h"
+#include "../Managers/GlobalManager.h"
 
 
 BezierCurve::BezierCurve() {
@@ -34,6 +35,8 @@ BezierCurve::BezierCurve(Float3 backgroundColor, Float3 lineColor, Float4 highli
     }
 }
 
+float t = 0;
+
 void BezierCurve::render() {
     if (_controlPoints.size() < 0)
         return;
@@ -47,15 +50,21 @@ void BezierCurve::render() {
         line(p0->vertex.x, p0->vertex.y, p1->vertex.x, p1->vertex.y);
     }
 
+    Float3 p;
+    bool draw = false;
     for (float t = 0; t <= 1; t += 0.01) {
-        Float3 p;
+        Float3 p1;
         for (int i = 0; i < _controlPoints.size(); ++i) {
-            p.x += _controlPoints[i]->vertex.x * blendingFunctions[i](t);
-            p.y += _controlPoints[i]->vertex.y * blendingFunctions[i](t);
+            p1.x += _controlPoints[i]->vertex.x * blendingFunctions[i](t);
+            p1.y += _controlPoints[i]->vertex.y * blendingFunctions[i](t);
         }
-        point(p.x, p.y);
+        if (draw)
+            line(p.x, p.y, p1.x, p1.y);
+        p = p1;
+        draw = true;
     }
 
+    drawAnimation(getPoints(), t);
 
     color(1, 1, 1);
 
@@ -77,10 +86,26 @@ void BezierCurve::render() {
     if (isSelected) {
         color(highlightColor.x, highlightColor.y, highlightColor.z, highlightColor.w);
     }
+
+    t = t + 0.1 * GlobalManager::getInstance()->deltaTime;
+    if (t > 1) t = 0;
 }
 
-//Function for calculating the polygon centroid, as it's center of mass
-//Taken from https://bell0bytes.eu/centroid-convex/
+void BezierCurve::drawAnimation(std::vector<Float3> points, float t) {
+    if (points.size() <= 1) return;
+    std::vector<Float3> interpolation;
+
+    for (int i = 0; i < points.size() - 1; ++i) {
+        Float3 p0 = points[i];
+        Float3 p1 = points[i + 1];
+        Float3 p = lerp(points[i], points[i + 1], t);
+        interpolation.push_back(p);
+        circleFill(p.x, p.y,3,20);
+        line(p0.x, p0.y, p1.x, p1.y);
+    }
+    drawAnimation(interpolation, t);
+}
+
 void BezierCurve::computeCentroid() {
     float centroidX = 0, centroidY = 0;
     float det = 0, tempDet = 0;

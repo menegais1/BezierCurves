@@ -56,6 +56,9 @@ void GlobalManager::mouse(int button, int state, int wheel, int direction, int x
 }
 
 void GlobalManager::render() {
+    currentTime = high_resolution_clock::now();
+    duration<double> time_span = duration_cast<duration<double>>(currentTime - lastTime);
+    deltaTime = time_span.count();
     std::vector<CanvasObject *> callbackCaller = objects;
     for (int i = callbackCaller.size() - 1; i >= 0; i--) {
         if (!callbackCaller[i]->checkIfCanExecuteCallback() || !callbackCaller[i]->isValid)
@@ -63,6 +66,8 @@ void GlobalManager::render() {
         callbackCaller[i]->render();
     }
     cleanUpObjects();
+
+    lastTime = currentTime;
 }
 
 int GlobalManager::registerObject(CanvasObject *object) {

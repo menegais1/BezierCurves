@@ -6,6 +6,7 @@
 #define GLOBAL_MANAGER_H
 
 #include <vector>
+#include <chrono>
 
 #include "../Base/CanvasObject.h"
 
@@ -34,8 +35,10 @@ public:
     int *screenWidth;
     int *screenHeight;
     Float2 mousePosition;
-
+    float deltaTime;
 private:
+    std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1, 1000000000>>> lastTime;
+    std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1, 1000000000>>> currentTime;
     int objectIdCounter;
     static GlobalManager *instance;
     //The order of the objects is descending, so what will be rendered first is last

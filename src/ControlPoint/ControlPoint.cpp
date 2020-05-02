@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <sstream>
 #include "ControlPoint.h"
 #include "../Canvas/gl_canvas2d.h"
 
@@ -27,6 +28,9 @@ void ControlPoint::mouse(int button, int state, int wheel, int direction, int x,
 
 void ControlPoint::render() {
     circleFill(vertex.x, vertex.y, radius, 20);
+    std::stringstream s;
+    s << "P" << idx;
+    text(vertex.x + radius, vertex.y + radius, s.str().c_str());
 }
 
 bool ControlPoint::pointIntersectsObject(Float3 point) {

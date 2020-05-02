@@ -64,6 +64,7 @@ void Scene::insertNewcurve() {
     std::vector<ControlPoint *> points;
     for (int i = 0; i < tmpVertices.size(); ++i) {
         ControlPoint *c = new ControlPoint(tmpVertices[i], 4);
+        c->idx = i;
         points.push_back(c);
     }
     BezierCurve *curve = new BezierCurve(backgroundColor, lineColor, Float4(0, 0, 0, 0), points);
