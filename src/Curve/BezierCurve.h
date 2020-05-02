@@ -29,6 +29,7 @@ public:
     Float3 centroid;
     std::vector<ControlPoint *> _controlPoints;
     std::vector<std::function<float(float)>> blendingFunctions;
+    std::vector<Float3> animationColors;
 
     bool isSelected;
     bool drawZIndex;
@@ -40,14 +41,14 @@ public:
 
     void render() override;
 
-    BezierCurve(Float3 backgroundColor, Float3 lineColor, Float4 highlightColor,
+    BezierCurve(Float3 lineColor, Float4 highlightColor,
                 std::vector<ControlPoint *> controlPoints);
 
     ~BezierCurve() = default;
 
     Float3 getCenter();
 
-    void curveAnimation(std::vector<Float3> points, float t);
+    void curveAnimation(std::vector<Float3> points, float t, int i);
 
     void translate(Float3 translationAmount) override;
 

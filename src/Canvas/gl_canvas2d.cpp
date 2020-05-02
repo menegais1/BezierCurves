@@ -174,7 +174,7 @@ void reshape(int w, int h) {
 
 //definicao de valores para limpar buffers
 void inicializa() {
-    glClearColor(99 / 255.0, 98 / 255.0, 91 / 255.0, 0);
+    glClearColor(255 / 255.0, 255 / 255.0, 255 / 255.0, 0);
     glPolygonMode(GL_FRONT, GL_FILL);
 }
 

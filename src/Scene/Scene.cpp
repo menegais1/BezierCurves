@@ -61,15 +61,18 @@ void Scene::multipleSelection(int x, int y) {
 void Scene::insertNewcurve() {
     if (tmpVertices.size() < 2)
         return;
-    Float3 backgroundColor = {0.2, 0.2, 0.2};
-    Float3 lineColor = {0, 1, 0};
+    Float3 lineColor = {0, 0, 0};
     std::vector<ControlPoint *> points;
     for (int i = 0; i < tmpVertices.size(); ++i) {
         ControlPoint *c = new ControlPoint(tmpVertices[i], 4);
         c->idx = i;
         points.push_back(c);
     }
-    BezierCurve *curve = new BezierCurve(backgroundColor, lineColor, highlightColor, points);
+    BezierCurve *curve = new BezierCurve(lineColor, highlightColor, points);
+    curve->drawAnimation = drawAnimation;
+    curve->drawCurve = drawCurve;
+    curve->drawControlGraph = drawControlGraph;
+    curve->drawConvexHull = drawBounds;
     curveListManager.addCurve(curve);
 
 }
@@ -149,7 +152,7 @@ void Scene::handleSceneOperator(Operator op) {
 }
 
 void Scene::render() {
-    color(1, 1, 1, 1);
+    color(0, 0, 0, 1);
     if (tmpVertices.size() > 0 && mode == SceneMode::Insert)
         renderPolygonInsertion();
 
@@ -163,7 +166,7 @@ void Scene::render() {
 void Scene::renderPolygonInsertion() {
     int size = tmpVertices.size();
     for (int i = 0; i < size; i++) {
-        color(1, 1, 1);
+        color(0, 0, 0);
         circle(tmpVertices[i].x, tmpVertices[i].y, 3, 10);
     }
     for (int i = 0; i < size - 1; i++) {
@@ -178,21 +181,19 @@ void Scene::renderCurrentMode() {
     int screenHeight = *GlobalManager::getInstance()->screenHeight;
     switch (mode) {
         case SceneMode::Default:
-            color(1, 1, 1);
+            color(0, 0, 0);
             text(20, screenHeight - 10, "Mode: Default");
             break;
         case SceneMode::Insert:
-            color(1, 1, 1);
+            color(0, 0, 0);
             stream << "Mode: Insert";
             text(20, screenHeight - 10, stream.str().c_str());
-            text(20, screenHeight - 23, "Left mouse: Insert point");
+            text(20, screenHeight - 23, "Left mouse: Insert control point");
             text(20, screenHeight - 35, "I key: clear points");
             text(20, screenHeight - 47, "Enter key: finish insertion");
-            text(20, screenHeight - 59,
-                 "Keys from 0-9: Change curve type, 0 is free polygon, 1 is circle, 3 is triangle... 9 is nonagon");
             break;
         case SceneMode::Translate:
-            color(1, 1, 1);
+            color(0, 0, 0);
             text(20, screenHeight - 10, "Mode: Translation");
             text(20, screenHeight - 23, "Move Mouse: Translate selected curves");
             text(20, screenHeight - 35, "T Key: finish translation");
@@ -200,13 +201,13 @@ void Scene::renderCurrentMode() {
             text(20, screenHeight - 59, "Y Key: Fixate y axis");
             break;
         case SceneMode::Rotate:
-            color(1, 1, 1);
+            color(0, 0, 0);
             text(20, screenHeight - 10, "Mode: Rotation");
             text(20, screenHeight - 23, "Move Mouse: Rotate selected curves");
             text(20, screenHeight - 35, "R Key: finish rotation");
             break;
         case SceneMode::Scale:
-            color(1, 1, 1);
+            color(0, 0, 0);
             text(20, screenHeight - 10, "Mode: Scaling");
             text(20, screenHeight - 23, "Move Mouse: Scale selected curves");
             text(20, screenHeight - 35, "S Key: finish scaling");
@@ -231,6 +232,10 @@ Scene::Scene() {
     this->scale = Float3(*GlobalManager::getInstance()->screenWidth, *GlobalManager::getInstance()->screenHeight, 0);
     this->setZIndex(-10000);
     multipleSelect = false;
+    drawCurve = true;
+    drawControlGraph = false;
+    drawAnimation = true;
+    drawBounds = false;
 }
 
 void Scene::setInsertMode() {

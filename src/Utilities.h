@@ -8,7 +8,7 @@
 #include "Vectors/Float3.h"
 #include "Vectors/Float4.h"
 
-#define stringify( name ) # name
+#define stringify(name) # name
 
 enum Channel {
     Red = 0,
@@ -54,5 +54,10 @@ bool leftMouseDown(int button, int state);
 bool leftMouseUp(int button, int state);
 
 Float3 lerp(Float3 x0, Float3 x1, float t);
+
+Float3 RandomColorGenerator(float saturation, float brightness);
+
+Float3 HSVtoRGB(Float3 hsv);
+
 
 #endif

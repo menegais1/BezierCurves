@@ -1,5 +1,6 @@
 #include "Utilities.h"
 #include <vector>
+#include <iostream>
 #include "Canvas/gl_canvas2d.h"
 #include "Vectors/Float2.h"
 #include "Vectors/Float3.h"
@@ -61,4 +62,77 @@ std::vector<Float3> generateCircle(Float3 center, Float3 scale, float sides) {
 
 bool isPointInsideCircle(Float2 point, Float2 center, float radius) {
     return std::pow(point.x - center.x, 2) + std::pow(point.y - center.y, 2) <= std::pow(radius, 2);
+}
+
+Float3 HSVtoRGB(Float3 hsv) {
+
+    double r = 0, g = 0, b = 0;
+
+    if (hsv.y == 0) {
+        r = hsv.z;
+        g = hsv.z;
+        b = hsv.z;
+    } else {
+        int i;
+        double f, p, q, t;
+
+        if (hsv.x == 360)
+            hsv.x = 0;
+        else
+            hsv.x = hsv.x / 60;
+
+        i = (int) hsv.x;
+        f = hsv.x - i;
+
+        p = hsv.z * (1.0 - hsv.x);
+        q = hsv.z * (1.0 - (hsv.x * f));
+        t = hsv.z * (1.0 - (hsv.x * (1.0 - f)));
+
+        switch (i) {
+            case 0:
+                r = hsv.z;
+                g = t;
+                b = p;
+                break;
+
+            case 1:
+                r = q;
+                g = hsv.z;
+                b = p;
+                break;
+
+            case 2:
+                r = p;
+                g = hsv.z;
+                b = t;
+                break;
+
+            case 3:
+                r = p;
+                g = q;
+                b = hsv.z;
+                break;
+
+            case 4:
+                r = t;
+                g = p;
+                b = hsv.z;
+                break;
+
+            default:
+                r = hsv.z;
+                g = p;
+                b = q;
+                break;
+        }
+
+    }
+
+    return Float3(r, g, b);
+}
+
+Float3 RandomColorGenerator(float saturation, float brightness) {
+    double rand = (std::rand() % 1000) / 1000.0;
+    rand = std::min(360.0, rand * 360);
+    return HSVtoRGB(Float3(rand, saturation, brightness));
 }

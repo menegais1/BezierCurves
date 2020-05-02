@@ -19,7 +19,7 @@ BezierCurve::BezierCurve() {
     isSelected = false;
 }
 
-BezierCurve::BezierCurve(Float3 backgroundColor, Float3 lineColor, Float4 highlightColor,
+BezierCurve::BezierCurve(Float3 lineColor, Float4 highlightColor,
                          std::vector<ControlPoint *> controlPoints) {
     this->lineColor = lineColor;
     this->highlightColor = highlightColor;
@@ -59,7 +59,7 @@ void BezierCurve::render() {
     }
 
     if (drawAnimation) {
-        curveAnimation(getPoints(), t);
+        curveAnimation(getPoints(), t, 0);
     }
 
     if (drawCurve) {
@@ -91,7 +91,7 @@ void BezierCurve::render() {
         }
     } else {
         for (int i = 0; i < _controlPoints.size(); ++i) {
-            _controlPoints[i]->handleColor = Float4(1, 1, 1, 1);
+            _controlPoints[i]->handleColor = Float4(0,0,0, 1);
         }
     }
 
@@ -110,10 +110,14 @@ void BezierCurve::render() {
 
 }
 
-void BezierCurve::curveAnimation(std::vector<Float3> points, float t) {
+void BezierCurve::curveAnimation(std::vector<Float3> points, float t, int i) {
     if (points.size() <= 1) return;
     std::vector<Float3> interpolation;
-
+    if (animationColors.size() <= i) {
+        animationColors.push_back(Float3((rand() % 256) / 256.0, (rand() % 256) / 256.0, (rand() % 256) / 256.0));
+    }
+    Float3 c = animationColors[i];
+    color(c.x, c.y, c.z);
     for (int i = 0; i < points.size() - 1; ++i) {
         Float3 p0 = points[i];
         Float3 p1 = points[i + 1];
@@ -122,7 +126,7 @@ void BezierCurve::curveAnimation(std::vector<Float3> points, float t) {
         circleFill(p.x, p.y, 3, 20);
         line(p0.x, p0.y, p1.x, p1.y);
     }
-    curveAnimation(interpolation, t);
+    curveAnimation(interpolation, t, i + 1);
 }
 
 void BezierCurve::computeCentroid() {
