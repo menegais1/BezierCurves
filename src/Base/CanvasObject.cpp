@@ -47,7 +47,7 @@ CanvasObject::CanvasObject() {
     zIndex = 0;
     isValid = true;
     isActive = true;
-    lastActiveState = true;
+    lastActiveState = false;
     position = {0, 0, 0};
     scale = {1, 1, 1};
     objectId = GlobalManager::getInstance()->registerObject(this);

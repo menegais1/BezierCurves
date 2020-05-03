@@ -46,7 +46,23 @@ add_executable(BezierCurves
         src/Scene/Scene.cpp
         src/Scene/Scene.h
         src/Utilities.cpp
-        src/Utilities.h src/ControlPoint/ControlPoint.cpp src/ControlPoint/ControlPoint.h src/ConvexHull/ConvexHull.cpp src/ConvexHull/ConvexHull.h src/Fatorial.cpp src/Fatorial.h)
+        src/Utilities.h
+        src/ControlPoint/ControlPoint.cpp
+        src/ControlPoint/ControlPoint.h
+        src/ConvexHull/ConvexHull.cpp
+        src/ConvexHull/ConvexHull.h
+        src/Fatorial.cpp
+        src/Fatorial.h
+        src/ColorPicker/ColorPickerPanel.cpp
+        src/ColorPicker/ColorPickerPanel.h
+        src/ColorPicker/ColorPicker.cpp
+        src/ColorPicker/ColorPicker.h
+        src/ColorPicker/ColorSlider.cpp
+        src/ColorPicker/ColorSlider.h
+        src/BlendingFunctionsGraph/BlendingFunctionsGraph.cpp
+        src/BlendingFunctionsGraph/BlendingFunctionsGraph.h
+        src/Button/Button.cpp
+        src/Button/Button.h)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)

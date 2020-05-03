@@ -10,7 +10,7 @@
 void ControlPoint::mouse(int button, int state, int wheel, int direction, int x, int y) {
     curMousePosition = Float3(x, y, 0);
     if (leftMouseDown(button, state)) {
-        if (pointIntersectsObject(Float3(x, y, 0))) {
+        if (isMouseInsideObject()) {
             dragging = true;
         }
     }

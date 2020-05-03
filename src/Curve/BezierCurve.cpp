@@ -27,7 +27,6 @@ BezierCurve::BezierCurve(Float3 lineColor, Float4 highlightColor,
     calculateConvexHull();
     isSelected = false;
     drawConvexHull = false;
-    drawCurve = true;
     drawControlGraph = false;
     drawAnimation = false;
     drawZIndex = false;
@@ -36,6 +35,10 @@ BezierCurve::BezierCurve(Float3 lineColor, Float4 highlightColor,
     for (int i = 0; i <= n; ++i) {
         blendingFunctions.push_back(calculateBlendingFunction(n, i));
     }
+    blendingFunctionsGraph = new BlendingFunctionsGraph(Float3(50, 50, 0), Float3(300, 150, 0), Float3(0, 0, 0),
+                                                        blendingFunctions);
+
+    blendingFunctionsGraph->setActive(false);
 }
 
 float t = 0;
@@ -62,21 +65,33 @@ void BezierCurve::render() {
         curveAnimation(getPoints(), t, 0);
     }
 
-    if (drawCurve) {
-        Float3 p;
-        bool draw = false;
-        for (float t = 0; t <= 1; t += 0.01) {
-            Float3 p1;
-            for (int i = 0; i < _controlPoints.size(); ++i) {
-                p1.x += _controlPoints[i]->vertex.x * blendingFunctions[i](t);
-                p1.y += _controlPoints[i]->vertex.y * blendingFunctions[i](t);
-            }
-            if (draw)
-                line(p.x, p.y, p1.x, p1.y);
-            p = p1;
-            draw = true;
+    if (isSelected) {
+        for (int i = 0; i < _controlPoints.size(); ++i) {
+            _controlPoints[i]->handleColor = highlightColor;
+        }
+    } else {
+        for (int i = 0; i < _controlPoints.size(); ++i) {
+            _controlPoints[i]->handleColor = Float4(0, 0, 0, 1);
         }
     }
+    Float3 p;
+    bool draw = false;
+    for (float t = 0; t <= 1; t += 0.01) {
+        Float3 p1;
+        for (int i = 0; i < _controlPoints.size(); ++i) {
+            p1.x += _controlPoints[i]->vertex.x * blendingFunctions[i](t);
+            p1.y += _controlPoints[i]->vertex.y * blendingFunctions[i](t);
+        }
+        if (draw) {
+            if (isSelected)
+                color(highlightColor.x, highlightColor.y, highlightColor.z, highlightColor.w);
+
+            line(p.x, p.y, p1.x, p1.y);
+        }
+        p = p1;
+        draw = true;
+    }
+
     if (drawConvexHull) {
         for (int i = 0; i < convexHull.hull.size() - 1; ++i) {
             Float3 p0 = convexHull.hull[i];
@@ -85,28 +100,9 @@ void BezierCurve::render() {
         }
     }
 
-    if (isSelected) {
-        for (int i = 0; i < _controlPoints.size(); ++i) {
-            _controlPoints[i]->handleColor = highlightColor;
-        }
-    } else {
-        for (int i = 0; i < _controlPoints.size(); ++i) {
-            _controlPoints[i]->handleColor = Float4(0,0,0, 1);
-        }
-    }
-
 
     t = t + 0.1 * GlobalManager::getInstance()->deltaTime;
     if (t > 1) t = 0;
-
-    color(1, 1, 1);
-
-    if (drawZIndex) {
-        std::stringstream stream;
-        stream << getZIndex();
-        text(centroid.x, centroid.y, stream.str().c_str());
-    }
-
 
 }
 
@@ -114,7 +110,8 @@ void BezierCurve::curveAnimation(std::vector<Float3> points, float t, int i) {
     if (points.size() <= 1) return;
     std::vector<Float3> interpolation;
     if (animationColors.size() <= i) {
-        animationColors.push_back(Float3((rand() % 256) / 256.0, (rand() % 256) / 256.0, (rand() % 256) / 256.0));
+        animationColors.push_back(
+                HSVtoRGB(Float3((rand() % 360), 0.5, 0.8)));
     }
     Float3 c = animationColors[i];
     color(c.x, c.y, c.z);
@@ -123,7 +120,7 @@ void BezierCurve::curveAnimation(std::vector<Float3> points, float t, int i) {
         Float3 p1 = points[i + 1];
         Float3 p = lerp(points[i], points[i + 1], t);
         interpolation.push_back(p);
-        circleFill(p.x, p.y, 3, 20);
+        circleFill(p.x, p.y, 4, 20);
         line(p0.x, p0.y, p1.x, p1.y);
     }
     curveAnimation(interpolation, t, i + 1);

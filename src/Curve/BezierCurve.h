@@ -8,6 +8,7 @@
 #include <ControlPoint/ControlPoint.h>
 #include <ConvexHull/ConvexHull.h>
 #include <functional>
+#include <BlendingFunctionsGraph/BlendingFunctionsGraph.h>
 #include "../Base/CanvasObject.h"
 #include "../Base/ITransformable.h"
 #include "../Vectors/Float2.h"
@@ -27,6 +28,7 @@ public:
     Float3 lineColor;
     ConvexHull convexHull;
     Float3 centroid;
+    BlendingFunctionsGraph* blendingFunctionsGraph;
     std::vector<ControlPoint *> _controlPoints;
     std::vector<std::function<float(float)>> blendingFunctions;
     std::vector<Float3> animationColors;
@@ -36,7 +38,7 @@ public:
     bool drawConvexHull;
     bool drawControlGraph;
     bool drawAnimation;
-    bool drawCurve;
+    bool drawControlPoints;
     Float4 highlightColor;
 
     void render() override;

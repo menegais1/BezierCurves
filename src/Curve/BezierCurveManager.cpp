@@ -159,15 +159,18 @@ void BezierCurveManager::setDrawBounds(bool drawBounds, bool selectedOnly) {
     }
 }
 
-void BezierCurveManager::setDrawCurve(bool drawCurve, bool selectedOnly) {
+void BezierCurveManager::setDrawControlPoints(bool drawControlPoints, bool selectedOnly) {
     if (selectedOnly) {
         for (int i = 0; i < selectedCurves.size(); i++) {
-            selectedCurves[i]->drawCurve = drawCurve;
-
+            for (int j = 0; j < selectedCurves[i]->_controlPoints.size(); ++j) {
+                selectedCurves[i]->_controlPoints[j]->setActive(drawControlPoints);
+            }
         }
     } else {
         for (int i = 0; i < curves.size(); i++) {
-            curves[i]->drawCurve = drawCurve;
+            for (int j = 0; j < curves[i]->_controlPoints.size(); ++j) {
+                curves[i]->_controlPoints[j]->setActive(drawControlPoints);
+            }
         }
     }
 }
@@ -196,4 +199,12 @@ void BezierCurveManager::setDrawAnimation(bool drawAnimation, bool selectedOnly)
             curves[i]->drawAnimation = drawAnimation;
         }
     }
+}
+
+void BezierCurveManager::activateBlendingFunctionGraph() {
+    if (selectedCurves.empty()) return;
+    auto selectedCurve = selectedCurves[0];
+    selectedCurve->blendingFunctionsGraph->setActive(!selectedCurve->blendingFunctionsGraph->getActive());
+    clearSelectedCurve();
+    selectCurve(selectedCurve);
 }

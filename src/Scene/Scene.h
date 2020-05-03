@@ -21,7 +21,8 @@ enum Operator {
     ConvexHull = 'b',
     ControlGraph = 'g',
     DrawAnimation = 'h',
-    ShowCurve = 'c',
+    ShowControlPoints = 'c',
+    ShowBlendingFunctions = 'q',
     DeleteSelected = 127,
 };
 
@@ -53,9 +54,10 @@ private:
     int mode;
     bool multipleSelect;
     bool drawBounds;
-    bool drawCurve;
+    bool drawControlPoints;
     bool drawControlGraph;
     bool drawAnimation;
+    bool showBlendingFunctions;
     Float4 highlightColor;
     Float2 lastMousePosition;
     Float3 selectionCenter;

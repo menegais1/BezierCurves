@@ -64,13 +64,14 @@ void Scene::insertNewcurve() {
     Float3 lineColor = {0, 0, 0};
     std::vector<ControlPoint *> points;
     for (int i = 0; i < tmpVertices.size(); ++i) {
-        ControlPoint *c = new ControlPoint(tmpVertices[i], 4);
+        ControlPoint *c = new ControlPoint(tmpVertices[i], 5);
         c->idx = i;
         points.push_back(c);
+        c->setZIndex(10);
+        c->setActive(drawControlPoints);
     }
     BezierCurve *curve = new BezierCurve(lineColor, highlightColor, points);
     curve->drawAnimation = drawAnimation;
-    curve->drawCurve = drawCurve;
     curve->drawControlGraph = drawControlGraph;
     curve->drawConvexHull = drawBounds;
     curveListManager.addCurve(curve);
@@ -138,11 +139,13 @@ void Scene::handleSceneOperator(Operator op) {
             drawControlGraph = !drawControlGraph;
             curveListManager.setDrawControlGraph(drawControlGraph, false);
             break;
-        case Operator::ShowCurve:
-            drawCurve = !drawCurve;
-            curveListManager.setDrawCurve(drawCurve, false);
+        case Operator::ShowControlPoints:
+            drawControlPoints = !drawControlPoints;
+            curveListManager.setDrawControlPoints(drawControlPoints, false);
             break;
-
+        case Operator::ShowBlendingFunctions:
+            curveListManager.activateBlendingFunctionGraph();
+            break;
         case Operator::DeleteSelected:
             curveListManager.deleteSelectedcurves();
             break;
@@ -232,10 +235,11 @@ Scene::Scene() {
     this->scale = Float3(*GlobalManager::getInstance()->screenWidth, *GlobalManager::getInstance()->screenHeight, 0);
     this->setZIndex(-10000);
     multipleSelect = false;
-    drawCurve = true;
+    drawControlPoints = true;
     drawControlGraph = false;
     drawAnimation = true;
     drawBounds = false;
+    showBlendingFunctions = false;
 }
 
 void Scene::setInsertMode() {

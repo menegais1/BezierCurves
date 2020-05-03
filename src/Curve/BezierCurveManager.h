@@ -29,11 +29,13 @@ public:
 
     void setDrawBounds(bool drawBounds, bool selectedOnly);
 
-    void setDrawCurve(bool drawCurve, bool selectedOnly);
+    void setDrawControlPoints(bool drawControlPoints, bool selectedOnly);
 
     void setDrawControlGraph(bool drawControlGraph, bool selectedOnly);
 
     void setDrawAnimation(bool drawAnimation, bool selectedOnly);
+
+    void activateBlendingFunctionGraph();
 
     void translateCurves(Float3 translationAmount);
 
