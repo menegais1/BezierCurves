@@ -216,3 +216,9 @@ std::vector<Float3> BezierCurve::getPoints() {
 void BezierCurve::calculateConvexHull() {
     convexHull.calculateConvexHull(getPoints());
 }
+
+BezierCurve::~BezierCurve() {
+    for (int i = 0; i < _controlPoints.size(); ++i) {
+        GlobalManager::getInstance()->deleteObject(_controlPoints[i]);
+    }
+}

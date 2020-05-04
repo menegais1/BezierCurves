@@ -46,7 +46,7 @@ public:
     BezierCurve(Float3 lineColor, Float4 highlightColor,
                 std::vector<ControlPoint *> controlPoints);
 
-    ~BezierCurve() = default;
+    ~BezierCurve();
 
     Float3 getCenter();
 
