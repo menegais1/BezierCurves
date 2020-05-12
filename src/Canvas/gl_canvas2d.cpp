@@ -200,8 +200,8 @@ void initCanvas(int *w, int *h, const char *title) {
     scrHeight = h;
     scrWidth = w;
 
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-
+    glutSetOption(GLUT_MULTISAMPLE, 8);
+    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_MULTISAMPLE);
     glutInitWindowSize(*w, *h);
     glutInitWindowPosition(200, 200);
     glutCreateWindow(title);
@@ -224,7 +224,6 @@ void initCanvas(int *w, int *h, const char *title) {
     printf("GL Version: %s", glGetString(GL_VERSION));
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 }
 
 void runCanvas() {

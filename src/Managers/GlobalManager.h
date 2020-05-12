@@ -36,9 +36,14 @@ public:
     int *screenHeight;
     Float2 mousePosition;
     float deltaTime;
+    float time = 0;
+    float fpsUpdateCycle = 0.25;
+    float lastFpsUpdate = 0;
+    int fps;
 private:
-    std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1, 1000000000>>> lastTime;
-    std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1, 1000000000>>> currentTime;
+    std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1, 1000000000>>> lastTime = std::chrono::high_resolution_clock::now();
+    std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1, 1000000000>>> currentTime = std::chrono::high_resolution_clock::now();
+
     int objectIdCounter;
     static GlobalManager *instance;
     //The order of the objects is descending, so what will be rendered first is last

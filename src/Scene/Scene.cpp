@@ -42,7 +42,7 @@ void Scene::singleSelection(int x, int y) {
     std::cout << "teste" << std::endl;
     BezierCurve *fig = curveListManager.getFirstInteractedCurve({x, y});
     if (fig != nullptr) {
-      //  if (!fig->isMouseInsideObject()) return;
+        //  if (!fig->isMouseInsideObject()) return;
         curveListManager.clearSelectedCurve();
         curveListManager.selectCurve(fig);
     }
@@ -182,6 +182,11 @@ void Scene::renderCurrentMode() {
 
     std::stringstream stream;
     int screenHeight = *GlobalManager::getInstance()->screenHeight;
+    int screenWidth = *GlobalManager::getInstance()->screenWidth;
+    stream << "FPS: " << GlobalManager::getInstance()->fps;
+    color(0, 0, 0);
+    text(screenWidth - 80, screenHeight - 10, stream.str().c_str());
+    stream = std::stringstream();
     switch (mode) {
         case SceneMode::Default:
             color(0, 0, 0);

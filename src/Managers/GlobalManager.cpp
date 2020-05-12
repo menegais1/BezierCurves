@@ -59,6 +59,13 @@ void GlobalManager::render() {
     currentTime = high_resolution_clock::now();
     duration<double> time_span = duration_cast<duration<double>>(currentTime - lastTime);
     deltaTime = time_span.count();
+    time += deltaTime;
+    std::cout << deltaTime << std::endl;
+    std::cout << time << std::endl;
+    if (time > lastFpsUpdate + fpsUpdateCycle) {
+        fps = 1.0 / deltaTime;
+        lastFpsUpdate = time;
+    }
     std::vector<CanvasObject *> callbackCaller = objects;
     for (int i = callbackCaller.size() - 1; i >= 0; i--) {
         if (!callbackCaller[i]->checkIfCanExecuteCallback() || !callbackCaller[i]->isValid)
@@ -96,7 +103,6 @@ bool GlobalManager::isMouseInsideObject(CanvasObject *object) {
         if (!objects[i]->getActive())
             continue;
         if (objects[i]->pointIntersectsObject(Float3(mousePosition, 0))) {
-            std::cout << "Intersects "  << i << std::endl;
             if (object == objects[i]) {
                 return true;
             }
