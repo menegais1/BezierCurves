@@ -42,7 +42,7 @@ void Scene::singleSelection(int x, int y) {
     std::cout << "teste" << std::endl;
     BezierCurve *fig = curveListManager.getFirstInteractedCurve({x, y});
     if (fig != nullptr) {
-        if (!fig->isMouseInsideObject()) return;
+      //  if (!fig->isMouseInsideObject()) return;
         curveListManager.clearSelectedCurve();
         curveListManager.selectCurve(fig);
     }
@@ -51,7 +51,7 @@ void Scene::singleSelection(int x, int y) {
 void Scene::multipleSelection(int x, int y) {
     BezierCurve *fig = curveListManager.getFirstInteractedCurve({x, y});
     if (fig != nullptr) {
-        if (!fig->isMouseInsideObject()) return;
+        //if (!fig->isMouseInsideObject()) return;
         curveListManager.selectCurve(fig);
     } else if (isMouseInsideObject()) {
         curveListManager.clearSelectedCurve();

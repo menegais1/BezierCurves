@@ -132,6 +132,10 @@ void BezierCurve::computeCentroid() {
     int j = 0;
     int nVertices = _controlPoints.size();
 
+    if (nVertices <= 2) {
+        centroid = (_controlPoints[0]->vertex + _controlPoints[1]->vertex) / 2.0;
+        return;
+    }
     for (unsigned int i = 0; i < nVertices; i++) {
         // closed polygon
         if (i + 1 == nVertices)

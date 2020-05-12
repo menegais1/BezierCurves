@@ -81,6 +81,9 @@ BezierCurve *BezierCurveManager::getFirstInteractedCurve(Float2 mousePosition) {
         if (fig->isMouseInsideObject()) {
             return fig;
         }
+        for (int j = 0; j < fig->_controlPoints.size(); ++j) {
+            if (fig->_controlPoints[j]->isMouseInsideObject()) return fig;
+        }
     }
 
     return nullptr;
