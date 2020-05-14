@@ -12,6 +12,51 @@
 #include "../Vectors/Float3.h"
 #include "../Vectors/Float4.h"
 
+
+Scene::Scene() {
+    mode = SceneMode::Default;
+    highlightColor = {242 / 255.0, 153 / 255.0, 0, 1};
+    drawBounds = false;
+    this->scale = Float3(*GlobalManager::getInstance()->screenWidth, *GlobalManager::getInstance()->screenHeight, 0);
+    this->setZIndex(-10000);
+    multipleSelect = false;
+    drawControlPoints = true;
+    drawControlGraph = false;
+    drawAnimation = true;
+    drawBounds = false;
+    showBlendingFunctions = false;
+
+
+    insertPolygon = new Button(position + Float3(20, 10, 0),
+                               Float3(100, 30, 0), Float3(0, 0, 0), "Add Curve", Float3(1, 1, 1));
+    insertPolygon->addListener([this] {
+        setInsertMode();
+    });
+    showConvexHull = new Button(position + Float3(122, 10, 0),
+                                Float3(120, 30, 0), Float3(0, 0, 0), "Convex Hull", Float3(1, 1, 1));
+    showConvexHull->addListener([this] {
+        drawBounds = !drawBounds;
+        curveListManager.setDrawBounds(drawBounds, false);
+    });
+    showControlGraph = new Button(position + Float3(244, 10, 0),
+                                  Float3(150, 30, 0), Float3(0, 0, 0), "Control Graph", Float3(1, 1, 1));
+    showControlGraph->addListener([this] {
+        drawControlGraph = !drawControlGraph;
+        curveListManager.setDrawControlGraph(drawControlGraph, false);
+    });
+    showAnimation = new Button(position + Float3(396, 10, 0),
+                               Float3(100, 30, 0), Float3(0, 0, 0), "Animate", Float3(1, 1, 1));
+    showAnimation->addListener([this] {
+        drawAnimation = !drawAnimation;
+        curveListManager.setDrawAnimation(drawAnimation, false);
+    });
+    showBlendingFunctionsGraph = new Button(position + Float3(498, 10, 0),
+                                            Float3(180, 30, 0), Float3(0, 0, 0), "Blending Functions", Float3(1, 1, 1));
+    showBlendingFunctionsGraph->addListener([this] {
+        curveListManager.activateBlendingFunctionGraph();
+    });
+}
+
 void Scene::mouse(int button, int state, int wheel, int direction, int x, int y) {
     currentMousePosition = {x, y};
     switch (mode) {
@@ -231,20 +276,6 @@ void Scene::ignoreUpperCaseChar(int &key) {
     }
 }
 
-Scene::Scene() {
-    mode = SceneMode::Default;
-    highlightColor = {242 / 255.0, 153 / 255.0, 0, 1};
-    drawBounds = false;
-    this->scale = Float3(*GlobalManager::getInstance()->screenWidth, *GlobalManager::getInstance()->screenHeight, 0);
-    this->setZIndex(-10000);
-    multipleSelect = false;
-    drawControlPoints = true;
-    drawControlGraph = false;
-    drawAnimation = true;
-    drawBounds = false;
-    showBlendingFunctions = false;
-}
-
 void Scene::setInsertMode() {
     mode = SceneMode::Insert;
     tmpVertices.clear();
@@ -286,7 +317,8 @@ void Scene::setDefaultMode() {
 
 void Scene::handleInsertMode(int button, int state) {
     if (leftMouseDown(button, state)) {
-        tmpVertices.push_back({currentMousePosition.x, currentMousePosition.y, 0});
+        if (tmpVertices.size() < 40)
+            tmpVertices.push_back({currentMousePosition.x, currentMousePosition.y, 0});
     }
 }
 

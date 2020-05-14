@@ -13,7 +13,6 @@
 #include "../Base/ITransformable.h"
 #include "../Vectors/Float2.h"
 #include "../Vectors/Float4.h"
-#include "../Bounds/Bounds.h"
 
 enum curveRender {
     FillOnly = 0,
@@ -40,6 +39,8 @@ public:
     bool drawAnimation;
     bool drawControlPoints;
     Float4 highlightColor;
+    Float3 controlGraphColor;
+    Float3 convexHullColor;
 
     void render() override;
 

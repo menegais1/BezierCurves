@@ -3,71 +3,54 @@ Roberto Menegais 201810233
 
 Instruções para o uso do programa:
 
-O Programa por padrão carregará um arquivo figuras.gr se estiver presente. Para interagir com o programa, todos os comando são feitos através de atalhos do teclado,
+Para interagir com o programa, alguns comandos são feitos através do teclado, porém os principais estão destacados em botões na interface,
 para manter a interface simples e limpa, os atalhos são:
 
-- i - Entra no modo de inserção de figura, onde com as teclas de 0-9 pode se escolher o tipo de figura a ser inserida:
+- i - Entra no modo de inserção de curva:
     - Modo de Inserção: 
-      - 0 - Poligono livre: Pontos são inseridos na posição que o mouse é clicado
-      - 1 - Circulo: Circulo é inserido na posição do centro do mouse
-      - 2 - Nenhum: Não existe poligono
-      - 3 - Triangulo: Triangulo é inserido na posição do centro do mouse
-      - 4 - Quadrado: Quadrado é inserido na posição do centro do mouse
-      - 5 - Pentagono: Pentagono é inserido na posição do centro do mouse
-      - 6 - Hexagono: Hexagono é inserido na posição do centro do mouse
-      - 7 - Heptagono: Heptagono é inserido na posição do centro do mouse
-      - 8 - Octagono: Octagono é inserido na posição do centro do mouse
-      - 9 - Eneagono: Nonagono é inserido na posição do centro do mouse
-      - Enter - Insere a figura e sai do modo de inserção
-      - i - Limpa os vértices inseridos
-- t - Entra no modo de translação, se houver alguma figura selecionada:
+      - Enter - Insere a curva e sai do modo de inserção
+      - i - Limpa os pontos de controle inseridos
+- t - Entra no modo de translação, se houver alguma curva selecionada:
     - Modo de Translação:
-        - Mover o mouse: Move as figuras selecionadas, de acordo com o centro da seleção
+        - Mover o mouse: Move as curvas selecionadas, de acordo com o centro da seleção, computado pelo fecho convexo
         - x - Fixa o eixo X, figura só é movida nesse eixo
         - y - Fixa o eixo Y, figura só é movida nesse eixo
         - t - Sai do modo de translação
-- r - Entra no modo de rotação, se houver alguma figura selecionada:
+- r - Entra no modo de rotação, se houver alguma curva selecionada:
     - Modo de Rotação:
-        - Mover o mouse: Rotaciona as figuras selecionadas, de acordo com o centro da seleção
+        - Mover o mouse: Rotaciona as curvas selecionadas, de acordo com o centro da seleção,, computado pelo fecho convexo
         - r - Sai do modo de rotação
-- s - Entra no modo de reescala, se houver alguma figura selecionada:
+- s - Entra no modo de reescala, se houver alguma curva selecionada:
     - Modo de Reescala:
-        - Mover o mouse: Escala as figuras selecionadas, de acordo com o centro da seleção
-        - x - Fixa o eixo X, figura só é escalada nesse eixo
-        - y - Fixa o eixo Y, figura só é escalada nesse eixo
+        - Mover o mouse: Escala as curvas selecionadas, de acordo com o centro da seleção,, computado pelo fecho convexo
+        - x - Fixa o eixo X, curva só é escalada nesse eixo
+        - y - Fixa o eixo Y, curva só é escalada nesse eixo
         - s - Sai do modo de reescala
-- b - Mostra as bounding box das figuras
-- z - Mostra o indice da figura, que define em qual ordem a mesma será renderizada,
-    se o ZIndex de duas figuras são iguais, elas podem ou não ser reordenadas na lista, portanto é necessário que os indices sejam diferentes para garantir que as figuras
-    fiquem na ordem esperada
-- left arrow - Move a figura para trás, diminuindo o indice por 10
-- right arrow - Move a figura para frente, aumentando o indice por 10
-- o - Carrega o arquivo figuras.gr, se existir
-- p - Salva o estado da cena atual no arquivo figuras.gr
-- l - Abre o color picker e controla a cor das linhas das figuras selecionadas
-- f - Abre o color picker e controla a cor do preenchimento das figuras selecionadas
-- g - Seta as figuras selecionadas com somente preenchimento, sem a borda
-- h - Seta as figuras selecionadas com somente borda, sem preenchimento
-- j - Seta as figuras selecionadas com borda e preenchimento
-- ctrl - Enquanto ficar pressionada, permite que multiplas figuras sejam selecionadas ao clicar em cima das mesmas
-clique do mouse esquerdo - Seleciona figura
-- del - Deleta figuras selecionadas
+- b - Mostra o fecho convexo das curvas
+- g - Mostra o grafo de controle das curvas
+- h - Ativa ou desativa a animação das curvas
+- c - Ativa ou desativa os pontos de controle, para melhor vizualização da curva criada
+- q - Ativa a janela das blending functions da primeira curva selecionada, caso haja mais de uma em seleção, ou da curva selecionada
+- ctrl - Enquanto ficar pressionada, permite que multiplas curvas sejam selecionadas ao clicar em cima das mesmas
+clique do mouse esquerdo - Seleciona curva
+- del - Deleta curvas selecionadas
 
-Funcoes:
+Funcões:
 
-    Inserir figuras
-    Deletar figuras
-    Selecionar cor da linha da figura
-    Selecionar cor do preenchimento da figura
-    Mover figuras pelo mouse
-    Reescalar figuras pelo mouse
-    Rotacionar figuras pelo mouse
-    Mover figuras para trás
-    Mover figuras para frente
-    Selecionar multiplas figuras
-    Salvar em arquivo
-    Carregar de arquivo
-    Geração de Color picker
-    Uso do Color picker e color slider
-    Janela flutuante com possibilidade de mover com o mouse
-    Inserção de poligonos arbitrários
+    - Inserir curvas através da inserção dos pontos de controle, no máximo 40 pontos pelo fato da curva ser gerada usando as blending functions, causando overflow no float devido a operação de fatorial usada.
+    - Vizualização do Grafo de controle
+    - Animação da geração das curvas com controle de FPS
+    - Grafico das blending functions
+    - Mover os pontos de controle com o mouse
+    - Deletar curvas - Extra
+    - Mover curvas pelo mouse - Extra
+    - Reescalar curvas pelo mouse - Extra
+    - Rotacionar curvas pelo mouse - Extra
+    - Selecionar multiplas curvas - Extra
+    - Janela flutuante com possibilidade de mover com o mouse - Extra
+    - Fecho convexo das curvas - Extra
+    
+OBS:
+
+    - As curvas são selecionados de acordo com o fecho convexo e pelos pontos de controle, então se uma curva sobrepor a outra, pode ocorrer da curva embaixo não ser selecionada ao clicar dentro do fecho convexo dela, porém os pontos de controle são sempre clicáveis para selecionar a curva.
+    - As janela das blending functions só aparecerá para a curva selecionada, se nenhuma curva estiver selecionada nada acontece.

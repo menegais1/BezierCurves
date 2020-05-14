@@ -39,15 +39,14 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Linker>
-			<!--LINUX-->
+			<!--LINUX
 			<Add option="-lGL" />
 			<Add option="-lGLU" />
-			<Add option="-lglut" />
-			<!-- WINDOWS
+			<Add option="-lglut" />-->
+			<!--WINDOWS-->
 			<Add library="../lib/libglu32.a" />
 			<Add library="../lib/libopengl32.a" />
 			<Add library="../lib/freeglut.lib" />
-			-->
 		</Linker>
 	        <Unit filename="include/GL/freeglut.h" />
              <Unit filename="include/GL/freeglut_ext.h" />
@@ -63,12 +62,6 @@
              <Unit filename="src/Button/Button.h" />
              <Unit filename="src/Canvas/gl_canvas2d.cpp" />
              <Unit filename="src/Canvas/gl_canvas2d.h" />
-             <Unit filename="src/ColorPicker/ColorPicker.cpp" />
-             <Unit filename="src/ColorPicker/ColorPicker.h" />
-             <Unit filename="src/ColorPicker/ColorPickerPanel.cpp" />
-             <Unit filename="src/ColorPicker/ColorPickerPanel.h" />
-             <Unit filename="src/ColorPicker/ColorSlider.cpp" />
-             <Unit filename="src/ColorPicker/ColorSlider.h" />
              <Unit filename="src/Managers/GlobalManager.cpp" />
              <Unit filename="src/Managers/GlobalManager.h" />
              <Unit filename="src/Panel/Panel.cpp" />
@@ -79,8 +72,6 @@
              <Unit filename="src/Vectors/Float3.h" />
              <Unit filename="src/Vectors/Float4.cpp" />
              <Unit filename="src/Vectors/Float4.h" />
-             <Unit filename="src/Bounds/Bounds.cpp" />
-             <Unit filename="src/Bounds/Bounds.h" />
              <Unit filename="src/Curve/BezierCurve.cpp" />
              <Unit filename="src/Curve/BezierCurve.h" />
              <Unit filename="src/Curve/BezierCurveManager.cpp" />

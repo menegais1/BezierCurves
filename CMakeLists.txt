@@ -36,8 +36,6 @@ add_executable(BezierCurves
         src/Vectors/Float3.h
         src/Vectors/Float4.cpp
         src/Vectors/Float4.h
-        src/Bounds/Bounds.cpp
-        src/Bounds/Bounds.h
         src/Curve/BezierCurve.cpp
         src/Curve/BezierCurve.h
         src/Curve/BezierCurveManager.cpp
@@ -53,12 +51,6 @@ add_executable(BezierCurves
         src/ConvexHull/ConvexHull.h
         src/Fatorial.cpp
         src/Fatorial.h
-        src/ColorPicker/ColorPickerPanel.cpp
-        src/ColorPicker/ColorPickerPanel.h
-        src/ColorPicker/ColorPicker.cpp
-        src/ColorPicker/ColorPicker.h
-        src/ColorPicker/ColorSlider.cpp
-        src/ColorPicker/ColorSlider.h
         src/BlendingFunctionsGraph/BlendingFunctionsGraph.cpp
         src/BlendingFunctionsGraph/BlendingFunctionsGraph.h
         src/Button/Button.cpp

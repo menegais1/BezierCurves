@@ -64,6 +64,14 @@ private:
     Float2 currentMousePosition;
     Float2 fixatedAxis;
 
+    Button *insertPolygon;
+    Button *showConvexHull;
+    Button *showControlGraph;
+    Button *showControlPoints;
+    Button *showAnimation;
+    Button *showBlendingFunctionsGraph;
+
+
     void renderPolygonInsertion();
 
     void renderCurrentMode();

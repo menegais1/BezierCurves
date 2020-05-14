@@ -12,8 +12,8 @@ using namespace std::chrono;
 GlobalManager::GlobalManager() {
     screenWidth = new int();
     screenHeight = new int();
-    *screenWidth = 600;
-    *screenHeight = 600;
+    *screenWidth = 800;
+    *screenHeight = 800;
 }
 
 GlobalManager *GlobalManager::getInstance() {

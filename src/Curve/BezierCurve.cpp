@@ -8,7 +8,6 @@
 #include "../Canvas/gl_canvas2d.h"
 #include "BezierCurve.h"
 #include <functional>
-#include "../Bounds/Bounds.h"
 #include "../Fatorial.h"
 #include "../Managers/GlobalManager.h"
 
@@ -35,10 +34,13 @@ BezierCurve::BezierCurve(Float3 lineColor, Float4 highlightColor,
     for (int i = 0; i <= n; ++i) {
         blendingFunctions.push_back(calculateBlendingFunction(n, i));
     }
-    blendingFunctionsGraph = new BlendingFunctionsGraph(Float3(50, 50, 0), Float3(300, 150, 0), Float3(0, 0, 0),
+    blendingFunctionsGraph = new BlendingFunctionsGraph(Float3(centroid.x, centroid.y, 0), Float3(300, 150, 0),
+                                                        Float3(0, 0, 0),
                                                         blendingFunctions);
     blendingFunctionsGraph->setZIndex(100);
     blendingFunctionsGraph->setActive(false);
+    controlGraphColor = HSVtoRGB(Float3(220, 0.8, 0.8));
+    convexHullColor = HSVtoRGB(Float3(70, 0.5, 0.8));
 }
 
 float t = 0;
@@ -49,8 +51,7 @@ void BezierCurve::render() {
 
     calculateConvexHull();
 
-    color(lineColor.x, lineColor.y, lineColor.z, 1);
-
+    color(controlGraphColor.x,controlGraphColor.y,controlGraphColor.z);
     if (drawControlGraph) {
 
         for (int i = 0; i < _controlPoints.size() - 1; ++i) {
@@ -76,6 +77,7 @@ void BezierCurve::render() {
     }
     Float3 p;
     bool draw = false;
+    color(lineColor.x, lineColor.y, lineColor.z, 1);
     for (float t = 0; t <= 1; t += 0.01) {
         Float3 p1;
         for (int i = 0; i < _controlPoints.size(); ++i) {
@@ -92,6 +94,7 @@ void BezierCurve::render() {
         draw = true;
     }
 
+    color(convexHullColor.x,convexHullColor.y,convexHullColor.z);
     if (drawConvexHull) {
         for (int i = 0; i < convexHull.hull.size() - 1; ++i) {
             Float3 p0 = convexHull.hull[i];
