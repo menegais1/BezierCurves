@@ -6,7 +6,7 @@
 #define BEZIERCURVES_CONVEXHULL_H
 
 
-#include <Vectors/Float3.h>
+#include "../Vectors/Float3.h"
 #include <vector>
 
 class ConvexHull {

@@ -6,7 +6,7 @@
 #define BEZIERCURVES_CONTROLPOINT_H
 
 
-#include <Base/CanvasObject.h>
+#include "../Base/CanvasObject.h"
 
 class ControlPoint : public CanvasObject {
 

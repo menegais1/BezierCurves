@@ -60,8 +60,6 @@ void GlobalManager::render() {
     duration<double> time_span = duration_cast<duration<double>>(currentTime - lastTime);
     deltaTime = time_span.count();
     time += deltaTime;
-    std::cout << deltaTime << std::endl;
-    std::cout << time << std::endl;
     if (time > lastFpsUpdate + fpsUpdateCycle) {
         fps = 1.0 / deltaTime;
         lastFpsUpdate = time;

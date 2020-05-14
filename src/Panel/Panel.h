@@ -20,6 +20,8 @@ public:
 
     Panel();
 
+    ~Panel();
+
     Panel(Float3 position, Float3 scale, Float3 backgroundColor);
 
     void setActive(bool isActive) override;

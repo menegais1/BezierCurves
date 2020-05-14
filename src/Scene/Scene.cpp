@@ -1,13 +1,13 @@
 #include "Scene.h"
 #include "../Utilities.h"
-#include "Curve/BezierCurve.h"
+#include "../Curve/BezierCurve.h"
 #include "../Canvas/gl_canvas2d.h"
 #include "../Managers/GlobalManager.h"
 #include <iostream>
 #include <algorithm>
 #include <cmath>
 #include <sstream>
-#include <ControlPoint/ControlPoint.h>
+#include "../ControlPoint/ControlPoint.h"
 #include "../Vectors/Float2.h"
 #include "../Vectors/Float3.h"
 #include "../Vectors/Float4.h"
@@ -36,10 +36,8 @@ void Scene::mouse(int button, int state, int wheel, int direction, int x, int y)
 
 void Scene::singleSelection(int x, int y) {
     if (isMouseInsideObject()) {
-        std::cout << "clear" << std::endl;
         curveListManager.clearSelectedCurve();
     }
-    std::cout << "teste" << std::endl;
     BezierCurve *fig = curveListManager.getFirstInteractedCurve({x, y});
     if (fig != nullptr) {
         //  if (!fig->isMouseInsideObject()) return;

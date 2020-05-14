@@ -2,7 +2,7 @@
 // Created by menegais1 on 02/05/2020.
 //
 
-#include <Canvas/gl_canvas2d.h>
+#include "../Canvas/gl_canvas2d.h"
 
 #include <utility>
 #include <iostream>
@@ -42,7 +42,6 @@ void BlendingFunctionsGraph::render() {
         Float2 p;
         for (float t = 0; t <= 1.001; t += 0.1) {
             p = Float2(t, blendingFunctions[i](t));
-            std::cout << p.x << " " << p.y << " " << i << std::endl;
             if (draw) {
                 Float2 finalP0 = Float2(position.x + padding.x + p0.x * graphSize.x,
                                         position.y + padding.y + p0.y * graphSize.y);
@@ -72,7 +71,7 @@ BlendingFunctionsGraph::BlendingFunctionsGraph(Float3 position, Float3 scale, Fl
         this->setActive(false);
         this->notifyOnActivateListeners();
     });
-
+    //this->setZIndex(100);
     children.push_back(closeButton);
     this->setActive(false);
 }

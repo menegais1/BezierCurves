@@ -1,5 +1,6 @@
 #include "Panel.h"
 #include <iostream>
+#include "../Managers/GlobalManager.h"
 
 Panel::Panel(std::vector<CanvasObject *> &children) {
     this->children = children;
@@ -47,5 +48,12 @@ void Panel::setZIndex(int zIndex) {
     CanvasObject::setZIndex(zIndex);
     for (int i = 0; i < children.size(); i++) {
         children[i]->setZIndex(children[i]->getZIndex() + zIndex);
+    }
+}
+
+Panel::~Panel() {
+    for (int i = 0; i < children.size(); i++) {
+        GlobalManager::getInstance()->deleteObject(children[i]);
+
     }
 }

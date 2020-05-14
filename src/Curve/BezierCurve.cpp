@@ -37,7 +37,7 @@ BezierCurve::BezierCurve(Float3 lineColor, Float4 highlightColor,
     }
     blendingFunctionsGraph = new BlendingFunctionsGraph(Float3(50, 50, 0), Float3(300, 150, 0), Float3(0, 0, 0),
                                                         blendingFunctions);
-
+    blendingFunctionsGraph->setZIndex(100);
     blendingFunctionsGraph->setActive(false);
 }
 
@@ -127,16 +127,17 @@ void BezierCurve::curveAnimation(std::vector<Float3> points, float t, int i) {
 }
 
 void BezierCurve::computeCentroid() {
-    float centroidX = 0, centroidY = 0;
-    float det = 0, tempDet = 0;
-    int j = 0;
-    int nVertices = _controlPoints.size();
-
-    if (nVertices <= 2) {
+    if (_controlPoints.size() <= 2) {
         centroid = (_controlPoints[0]->vertex + _controlPoints[1]->vertex) / 2.0;
         return;
     }
-    for (unsigned int i = 0; i < nVertices; i++) {
+
+    float centroidX = 0, centroidY = 0;
+    float det = 0, tempDet = 0;
+    int j = 0;
+    int nVertices = convexHull.hull.size();
+
+    for (unsigned int i = 0; i < convexHull.hull.size(); i++) {
         // closed polygon
         if (i + 1 == nVertices)
             j = 0;
@@ -144,12 +145,12 @@ void BezierCurve::computeCentroid() {
             j = i + 1;
 
         // compute the determinant
-        tempDet = _controlPoints[i]->vertex.x * _controlPoints[j]->vertex.y -
-                  _controlPoints[j]->vertex.x * _controlPoints[i]->vertex.y;
+        tempDet = convexHull.hull[i].x * convexHull.hull[j].y -
+                  convexHull.hull[j].x * convexHull.hull[i].y;
         det += tempDet;
 
-        centroidX += (_controlPoints[i]->vertex.x + _controlPoints[j]->vertex.x) * tempDet;
-        centroidY += (_controlPoints[i]->vertex.y + _controlPoints[j]->vertex.y) * tempDet;
+        centroidX += (convexHull.hull[i].x + convexHull.hull[j].x) * tempDet;
+        centroidY += (convexHull.hull[i].y + convexHull.hull[j].y) * tempDet;
     }
 
     // divide by the total mass of the polygon
@@ -225,4 +226,5 @@ BezierCurve::~BezierCurve() {
     for (int i = 0; i < _controlPoints.size(); ++i) {
         GlobalManager::getInstance()->deleteObject(_controlPoints[i]);
     }
+    GlobalManager::getInstance()->deleteObject(blendingFunctionsGraph);
 }

@@ -49,7 +49,7 @@
 			<Add library="../lib/freeglut.lib" />
 			-->
 		</Linker>
-	     <Unit filename="include/GL/freeglut.h" />
+	        <Unit filename="include/GL/freeglut.h" />
              <Unit filename="include/GL/freeglut_ext.h" />
              <Unit filename="include/GL/freeglut_std.h" />
              <Unit filename="include/GL/glut.h" />
@@ -81,10 +81,18 @@
              <Unit filename="src/Vectors/Float4.h" />
              <Unit filename="src/Bounds/Bounds.cpp" />
              <Unit filename="src/Bounds/Bounds.h" />
-             <Unit filename="src/BezierCurve/BezierCurve.cpp" />
-             <Unit filename="src/BezierCurve/BezierCurve.h" />
-             <Unit filename="src/BezierCurve/BezierCurveManager.cpp" />
-             <Unit filename="src/BezierCurve/BezierCurveManager.h" />
+             <Unit filename="src/Curve/BezierCurve.cpp" />
+             <Unit filename="src/Curve/BezierCurve.h" />
+             <Unit filename="src/Curve/BezierCurveManager.cpp" />
+             <Unit filename="src/Curve/BezierCurveManager.h" />
+             <Unit filename="src/ControlPoint/ControlPoint.cpp" />
+             <Unit filename="src/ControlPoint/ControlPoint.h" />
+             <Unit filename="src/ConvexHull/ConvexHull.cpp" />
+             <Unit filename="src/ConvexHull/ConvexHull.h" />
+             <Unit filename="src/Fatorial.cpp" />
+             <Unit filename="src/Fatorial.h" />
+             <Unit filename="src/BlendingFunctionsGraph/BlendingFunctionsGraph.cpp" />
+             <Unit filename="src/BlendingFunctionsGraph/BlendingFunctionsGraph.h" />
              <Unit filename="src/main.cpp" />
              <Unit filename="src/Scene/Scene.cpp" />
              <Unit filename="src/Scene/Scene.h" />

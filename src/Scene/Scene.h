@@ -6,7 +6,7 @@
 #define SCENE_H
 
 #include <vector>
-#include "Curve/BezierCurve.h"
+#include "../Curve/BezierCurve.h"
 #include "../Vectors/Float3.h"
 #include "../Vectors/Float4.h"
 #include "../Curve/BezierCurveManager.h"

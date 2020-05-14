@@ -1,14 +1,14 @@
 //BezierCurve class, store curve information and offer operations to other classes to
 //manipulate them
 
-#ifndef curve_H
-#define curve_H
+#ifndef BezierCurve_H
+#define BezierCurve_H
 
 #include <vector>
-#include <ControlPoint/ControlPoint.h>
-#include <ConvexHull/ConvexHull.h>
+#include "../ControlPoint/ControlPoint.h"
+#include "../ConvexHull/ConvexHull.h"
 #include <functional>
-#include <BlendingFunctionsGraph/BlendingFunctionsGraph.h>
+#include "../BlendingFunctionsGraph/BlendingFunctionsGraph.h"
 #include "../Base/CanvasObject.h"
 #include "../Base/ITransformable.h"
 #include "../Vectors/Float2.h"

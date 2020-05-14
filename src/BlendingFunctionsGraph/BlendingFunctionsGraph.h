@@ -6,11 +6,11 @@
 #define BEZIERCURVES_BLENDINGFUNCTIONSGRAPH_H
 
 
-#include <Vectors/Float2.h>
+#include "../Vectors/Float2.h"
 #include <vector>
 #include <functional>
-#include <Button/Button.h>
-#include <Panel/Panel.h>
+#include "../Button/Button.h"
+#include "../Panel/Panel.h"
 
 class BlendingFunctionsGraph : public Panel {
 public:

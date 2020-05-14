@@ -10,7 +10,6 @@ double Fatorial::fatorial(int n) {
     static Fatorial *instance = new Fatorial();
     if (n == 0 || n == 1) return 1;
     if (instance->fat_lookUpTable[n] != -1) return instance->fat_lookUpTable[n];
-    std::cout << "Exec" << std::endl;
     double fat = n * fatorial(n - 1);
     instance->fat_lookUpTable[n] = fat;
     return fat;
